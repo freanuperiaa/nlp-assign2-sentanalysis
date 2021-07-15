@@ -10,7 +10,7 @@ import credentials
 class TwitterClient():
 
     def __init__(self):
-        self.auth = TwitterAuthenticator.authenticate_twitter_app()
+        self.auth = TwitterAuthenticator().authenticate_twitter_app()
         self.twitter_client = API(self.auth)
 
     def get_user_timeline_tweets(self, num_tweets):
@@ -76,6 +76,6 @@ if __name__ == '__main__':
     fetched_tweets_filename = "tweets.json"
 
     twitter_client = TwitterClient()
-    print(twitter_client.get_user_timeline_tweets(2))
+    print(twitter_client.get_user_timeline_tweets(1))
     # twitter_streamer = TwitterStreamer()
     # twitter_streamer.stream_tweets(fetched_tweets_filename, hash_tag_list)
