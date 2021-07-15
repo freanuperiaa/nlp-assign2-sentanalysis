@@ -39,6 +39,19 @@ class TwitterClient():
             home_timeline_tweets.append(tweet)
         return home_timeline_tweets
 
+    def get_tweets_by_search(self, num_tweets, keyword="", date_since="2021-01-01"):
+        # https://www.earthdatascience.org/courses/use-data-open-source-python/intro-to-apis/twitter-data-in-python/
+        tweets = []
+        for tweet in Cursor(
+            self.twitter_client.search, 
+            q=keyword,
+            lang="en",
+            since=date_since
+        ).items(num_tweets):
+            tweets.append(tweet)
+
+        return tweets
+
 
 
 class TwitterAuthenticator():
@@ -114,12 +127,16 @@ if __name__ == '__main__':
 
     twitter_client = TwitterClient()
     tweet_analyzer = TweetAnalyzer()
-    api = twitter_client.get_twitter_client_api()
-    tweets = api.user_timeline(screen_name="pycon", count=20) # apprently, Donald trump is suspended
+    # api = twitter_client.get_twitter_client_api()
+    # tweets = api.user_timeline(screen_name="pycon", count=20) # apprently, Donald trump is suspended
     # print(tweets)
 
     # for checking the properties/keys of the tweet object
     # print(dir(tweets[0]))
 
+    # df = tweet_analyzer.tweets_to_data_frame(tweets)
+    # print(df.head(5))
+
+    tweets = twitter_client.get_tweets_by_search(20, "vaccination philippines", "2021-02-01")
     df = tweet_analyzer.tweets_to_data_frame(tweets)
     print(df.head(5))
